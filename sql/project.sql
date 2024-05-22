@@ -13,3 +13,16 @@ CREATE TABLE board
 SELECT *
 FROM board
 ORDER BY id DESC;
+
+# 멤버 테이블 생성
+CREATE TABLE member
+(
+    id        INT PRIMARY KEY AUTO_INCREMENT,
+    email     VARCHAR(100) NOT NULL UNIQUE,
+    password  VARCHAR(100) NOT NULL,
+    nick_name VARCHAR(100) NOT NULL UNIQUE,
+    inserted  DATETIME     NOT NULL DEFAULT NOW()
+);
+
+SELECT *
+FROM member;
