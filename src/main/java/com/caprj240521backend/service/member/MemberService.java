@@ -3,6 +3,7 @@ package com.caprj240521backend.service.member;
 import com.caprj240521backend.domain.member.Member;
 import com.caprj240521backend.mapper.member.MemberMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,8 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     final MemberMapper mapper;
+    final BCryptPasswordEncoder passwordEncoder;
 
     public void add(Member member) {
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
+        member.setEmail(member.getEmail().trim());
+        member.setNickName(member.getNickName().trim());
         mapper.insert(member);
     }
 
@@ -22,7 +27,7 @@ public class MemberService {
     }
 
     public Member getByNickName(String nickName) {
-        return mapper.selectByNickName(nickName);
+        return mapper.selectByNickName(nickName.trim());
     }
 
     public boolean validate(Member member) {
