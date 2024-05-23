@@ -20,10 +20,10 @@ public class MemberController {
     public ResponseEntity signup(@RequestBody Member member) {
         if (service.validate(member)) {
             service.add(member);
+            return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.badRequest().build();
         }
-        return null;
     }
 
     @GetMapping(value = "check", params = "email")
