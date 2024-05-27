@@ -78,3 +78,32 @@ SELECT title, content, member_id
 FROM board;
 SELECT COUNT(*)
 FROM board;
+
+SELECT *
+FROM member;
+UPDATE member
+SET nick_name = 'abcd'
+WHERE id = 5;
+UPDATE member
+SET nick_name = 'efgh'
+WHERE id = 6;
+
+UPDATE board
+SET member_id = 5
+WHERE id % 2 = 0;
+UPDATE board
+SET member_id = 6
+WHERE id % 2 = 1;
+
+UPDATE board
+SET title   = 'abc def',
+    content = 'ghi jkl'
+WHERE id % 3 = 0;
+UPDATE board
+SET title   = 'mno pqr',
+    content = 'stu vwx'
+WHERE id % 3 = 1;
+UPDATE board
+SET title   = 'yz1 234',
+    content = '567 890'
+WHERE id % 3 = 2;
