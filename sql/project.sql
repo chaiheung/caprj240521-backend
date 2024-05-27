@@ -33,7 +33,7 @@ FROM member;
 # member_id column reference member(id)
 
 ALTER TABLE board
-DROP COLUMN writer;
+    DROP COLUMN writer;
 DESC board;
 ALTER TABLE board
     ADD COLUMN member_id INT REFERENCES member (id) AFTER content;
@@ -48,3 +48,14 @@ DESC board;
 SELECT *
 FROM board
 ORDER BY id DESC;
+
+SELECT *
+FROM member
+WHERE email = '1@1';
+
+DELETE
+FROM board
+WHERE member_id = 6;
+DELETE
+FROM member
+WHERE email = '1@1';
