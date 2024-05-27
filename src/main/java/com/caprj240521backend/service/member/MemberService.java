@@ -16,6 +16,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -130,6 +131,10 @@ public class MemberService {
                 result = new HashMap<>();
                 java.lang.String token = "";
                 Instant now = Instant.now();
+                List<String> authority = mapper.selectAuthorityByMemberId(db.getId());
+
+                String authorityString = authority.stream()
+                        .collect(Collectors.joining(" "));
                 // https://github.com/spring-projects/spring-security-samples/blob/main/servlet/spring-boot/java/jwt/login/src/main/java/example/web/TokenController.java
                 JwtClaimsSet claims = JwtClaimsSet.builder()
                         .issuer("self")
