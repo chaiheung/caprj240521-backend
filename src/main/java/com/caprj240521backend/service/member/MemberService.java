@@ -1,8 +1,10 @@
 package com.caprj240521backend.service.member;
 
+import com.caprj240521backend.domain.board.Board;
 import com.caprj240521backend.domain.member.Member;
 import com.caprj240521backend.mapper.board.BoardMapper;
 import com.caprj240521backend.mapper.member.MemberMapper;
+import com.caprj240521backend.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +30,7 @@ public class MemberService {
     final BCryptPasswordEncoder passwordEncoder;
     final JwtEncoder jwtEncoder;
     private final BoardMapper boardMapper;
+    private final BoardService boardService;
 
     public void add(Member member) {
         member.setPassword(passwordEncoder.encode(member.getPassword()));
@@ -72,8 +75,11 @@ public class MemberService {
     }
 
     public void remove(Integer id) {
-        // board 테이블에서 작성한 글 지우기
-        boardMapper.deleteByMemberId(id);
+        // 회원이 쓴 게시물 조회
+        List<Board> boardList = boardMapper.selectByMemberId(id);
+
+        // 각 게시물 지우기
+        boardList.forEach(board -> boardService.remove(board.getId()));
 
         // member 테이블에서 지우기
         mapper.deleteById(id);
@@ -135,14 +141,14 @@ public class MemberService {
 
     public Map<String, Object> getToken(Member member) {
 
-        Map<java.lang.String, java.lang.Object> result = null;
+        Map<String, Object> result = null;
 
         Member db = mapper.selectByEmail(member.getEmail());
 
         if (db != null) {
             if (passwordEncoder.matches(member.getPassword(), db.getPassword())) {
                 result = new HashMap<>();
-                java.lang.String token = "";
+                String token = "";
                 Instant now = Instant.now();
                 List<String> authority = mapper.selectAuthorityByMemberId(db.getId());
 
