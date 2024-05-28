@@ -1,6 +1,7 @@
 package com.caprj240521backend.service.board;
 
 import com.caprj240521backend.domain.board.Board;
+import com.caprj240521backend.domain.board.BoardFile;
 import com.caprj240521backend.mapper.board.BoardMapper;
 import com.caprj240521backend.mapper.member.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -91,11 +92,11 @@ public class BoardService {
     public Board get(Integer id) {
         Board board = mapper.selectById(id);
         List<String> fileNames = mapper.selectFileNameByBoardId(id);
-        List<String> imageSrcList = fileNames.stream()
-                .map(name -> STR."http://172.30.1.69:8888/\{id}/\{name}")
+        List<BoardFile> files = fileNames.stream()
+                .map(name -> new BoardFile(name, STR."http://172.30.1.69:8888/\{id}/\{name}"))
                 .toList();
 
-        board.setImageSrcList(imageSrcList);
+        board.setFiles(files);
 
         return board;
     }
