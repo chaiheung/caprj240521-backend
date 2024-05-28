@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -88,7 +89,15 @@ public class BoardService {
     }
 
     public Board get(Integer id) {
-        return mapper.selectById(id);
+        Board board = mapper.selectById(id);
+        List<String> fileNames = mapper.selectFileNameByBoardId(id);
+        List<String> imageSrcList = fileNames.stream()
+                .map(name -> STR."http://172.30.1.69:8888/\{id}/\{name}")
+                .toList();
+
+        board.setImageSrcList(imageSrcList);
+
+        return board;
     }
 
     public void remove(Integer id) {
