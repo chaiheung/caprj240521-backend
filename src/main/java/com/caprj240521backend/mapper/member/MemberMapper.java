@@ -29,16 +29,19 @@ public interface MemberMapper {
     Member selectByNickName(String nickName);
 
     @Select("""
-            SELECT id, email, nick_name, inserted
+            SELECT id,
+                   email,
+                   nick_name,
+                   inserted
             FROM member
-            ORDER BY id
+            ORDER BY id ASC 
             """)
     List<Member> selectAll();
-
 
     @Select("""
             SELECT id,
                    email,
+                   password,
                    nick_name,
                    inserted
             FROM member
@@ -53,8 +56,10 @@ public interface MemberMapper {
     int deleteById(Integer id);
 
     @Update("""
-            UPDATE member
-            SET password = #{password}, nick_name = #{nickName}
+            UPDATE member 
+            SET
+                password = #{password},
+                nick_name = #{nickName}
             WHERE id = #{id}
             """)
     int update(Member member);
