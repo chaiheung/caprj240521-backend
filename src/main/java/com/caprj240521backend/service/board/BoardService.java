@@ -35,17 +35,7 @@ public class BoardService {
             for (MultipartFile file : files) {
                 // db에 해당 게시물의 파일 목록 저장
                 mapper.insertFileName(board.getId(), file.getOriginalFilename());
-                // 실제 파일 저장
-                // 부모 디렉토리 생성
-                String dir = STR."C:/Temp/caprj240521/\{board.getId()}";
-                File dirFile = new File(dir);
-                if (!dirFile.exists()) {
-                    dirFile.mkdirs();
-                }
-                // 파일 경로
-                String path = STR."C:/Temp/caprj240521/\{board.getId()}/\{file.getOriginalFilename()}";
-                File destination = new File(path);
-                file.transferTo(destination);
+                // 실제 파일 저장 (s3)
             }
         }
     }
