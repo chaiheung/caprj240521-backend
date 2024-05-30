@@ -120,7 +120,7 @@ CREATE TABLE board_file
 SELECT *
 FROM board_file;
 
-# board_like
+# 좋아요
 CREATE TABLE board_like
 (
     board_id  INT NOT NULL REFERENCES board (id),
@@ -137,3 +137,17 @@ FROM board b
          LEFT JOIN board_file f ON b.id = f.board_id
          LEFT JOIN board_like l ON b.id = l.board_id
 WHERE b.id = 1;
+
+DESC board;
+
+# 댓글
+CREATE TABLE comment
+(
+    id        INT PRIMARY KEY AUTO_INCREMENT,
+    board_id  INT          NOT NULL REFERENCES board (id),
+    member_id INT          NOT NULL REFERENCES member (id),
+    comment   VARCHAR(500) NOT NULL,
+    inserted  DATETIME     NOT NULL DEFAULT NOW()
+);
+SELECT *
+FROM comment;
