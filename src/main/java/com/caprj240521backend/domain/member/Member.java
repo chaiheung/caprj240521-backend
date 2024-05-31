@@ -16,7 +16,7 @@ public class Member {
 
     public String getSignupDateAndTime() {
         DateTimeFormatter formatter
-                = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초");
+                = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
         return inserted.format(formatter);
     }
