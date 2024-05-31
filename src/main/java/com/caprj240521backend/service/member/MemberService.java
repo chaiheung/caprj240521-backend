@@ -3,6 +3,7 @@ package com.caprj240521backend.service.member;
 import com.caprj240521backend.domain.board.Board;
 import com.caprj240521backend.domain.member.Member;
 import com.caprj240521backend.mapper.board.BoardMapper;
+import com.caprj240521backend.mapper.comment.CommentMapper;
 import com.caprj240521backend.mapper.member.MemberMapper;
 import com.caprj240521backend.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class MemberService {
     final JwtEncoder jwtEncoder;
     private final BoardMapper boardMapper;
     private final BoardService boardService;
+    private final CommentMapper commentMapper;
 
     public void add(Member member) {
         member.setPassword(passwordEncoder.encode(member.getPassword()));
@@ -83,6 +85,9 @@ public class MemberService {
 
         // 좋아요 지우기
         boardMapper.deleteLikeByMemberId(id);
+
+        // 댓글 지우기
+        commentMapper.deleteByMemberId(id);
 
         // member 테이블에서 지우기
         mapper.deleteById(id);
